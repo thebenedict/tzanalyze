@@ -17,12 +17,12 @@ var publicationColors = function (d, i) {
     return colors[d.key];
 }
 
-d3.json("../../counts/ccm.json", function(error, json) {
+d3.json("./pages/data/ccm.json", function(error, json) {
   if (error) return console.warn(error);
   data['ccm'] = json;
 });
 
-d3.json("../../counts/chadema.json", function(error, json) {
+d3.json("./pages/data/chadema.json", function(error, json) {
   if (error) return console.warn(error);
   data['chadema'] = json;
 });
