@@ -3,10 +3,13 @@
 import os
 import json
 import io
+import time
+import datetime
 from glob import glob
 from collections import defaultdict
+from operator import itemgetter
 
-terms = ["CCM"]
+terms = ["CCM", "CHADEMA"]
 
 input_root = "cleaned"
 output_root = "counts"
@@ -26,25 +29,27 @@ directions = {
 }
 
 def main():
-  counts = []
   text = get_text()
-  for term in terms:
-    for publication in text.keys():
-      counts.append(get_counts_for_publication(publication, text[publication], term))
-
+  
   if not os.path.exists(output_root):
       print "\tOutput directory not found, creating %s" % output_root
       os.makedirs(output_root)
+  
+  for term in terms:
+    counts = []
+    for publication in text.keys():
+      counts.append(get_counts_for_publication(publication, text[publication], term))
+    pad_counts(counts);
+    sort_counts(counts);
 
-  destination = "%s/%s.json" % (output_root, term)
-  with io.open(destination, 'w', encoding='utf-8') as outfile:
-    outfile.write(unicode(json.dumps(counts)))
+    destination = "%s/%s.json" % (output_root, term.lower())
+    with io.open(destination, 'w', encoding='utf-8') as outfile:
+      outfile.write(unicode(json.dumps(counts, indent=2, sort_keys=True)))
 
 def get_text():
   text = defaultdict(dict)
 
-  #for publication_name in os.listdir(input_root):
-  for publication_name in ['citizen', 'mwananchi']:
+  for publication_name in os.listdir(input_root):
     print "Processing %s" % publication_name
 
     publication_path = os.path.abspath("%s/%s" % (input_root, publication_name))
@@ -55,18 +60,34 @@ def get_text():
   return text
 
 def get_counts_for_publication(name, text, term):
-  counts = {'key': name, 'values': []}
+  counts = {'key': name.title().replace("_"," "), 'values': []}
   for i, date in enumerate(text.keys()):
     term_count = 0
-    word_count = 0
+    #word_count = 0
     for article in text[date]:
       term_count += article.count(term.lower())
-      word_count += len(article)
+      #word_count += len(article)
     oriented_count = term_count * directions[languages[name]]
-    normalized_count = float(oriented_count)/float(word_count)
-    counts['values'].append({'date': date, 'x': i, 'y': int(normalized_count * 10000)})
-  #return counts
-  return {'key': counts['key'], 'values': counts['values'][:31]} 
+    #normalized_count = float(oriented_count)/float(word_count)
+    counts['values'].append({'date': date, 'x': get_timestamp(date), 'y': int(oriented_count)})
+  return counts
+
+def pad_counts(counts):
+  values_list = [c['values'] for c in counts]
+  longest_values = max(enumerate(values_list), key = lambda tup: len(tup[1]))[1]
+  for c in counts:
+    dates = [v['x'] for v in c['values']]
+    for v in longest_values:
+      if v['x'] not in dates:
+        c['values'].append({'x': v['x'], 'y': 0})
+
+def sort_counts(counts):
+  for c in counts:
+    c['values'] = sorted(c['values'], key=itemgetter('x')) 
+
+def get_timestamp(date):
+  date = datetime.datetime.strptime(date, "%Y-%m-%d")
+  return time.mktime(date.timetuple()) * 1000
 
 if __name__ == "__main__":
   main()
