@@ -9,7 +9,7 @@ from glob import glob
 from collections import defaultdict
 from operator import itemgetter
 
-terms = ["CCM", "CHADEMA"]
+terms = ["CCM", "CHADEMA", "Magufuli", "Lowassa", "Slaa", "TFDA", "corruption", "rushwa", "obama", "usaid", "msd", "kenya", "MCC", "elephant", "tembo", "Zanzibar", "Kipindupindu"]
 
 input_root = "cleaned"
 output_root = "counts"
@@ -30,21 +30,23 @@ directions = {
 
 def main():
   text = get_text()
-  
+  all_counts = {}
+
   if not os.path.exists(output_root):
       print "\tOutput directory not found, creating %s" % output_root
-      os.makedirs(output_root)
-  
+      os.makedirs(output_root)  
+
   for term in terms:
     counts = []
     for publication in text.keys():
       counts.append(get_counts_for_publication(publication, text[publication], term))
     pad_counts(counts);
     sort_counts(counts);
+    all_counts[term] = counts
 
-    destination = "%s/%s.json" % (output_root, term.lower())
-    with io.open(destination, 'w', encoding='utf-8') as outfile:
-      outfile.write(unicode(json.dumps(counts, indent=2, sort_keys=True)))
+  destination = "%s/counts.json" % (output_root)
+  with io.open(destination, 'w', encoding='utf-8') as outfile:
+    outfile.write(unicode(json.dumps(all_counts, indent=2, sort_keys=True)))
 
 def get_text():
   text = defaultdict(dict)
@@ -65,7 +67,7 @@ def get_counts_for_publication(name, text, term):
     term_count = 0
     #word_count = 0
     for article in text[date]:
-      term_count += article.count(term.lower())
+      term_count += article.count(" " + term.lower() + " ")
       #word_count += len(article)
     oriented_count = term_count * directions[languages[name]]
     #normalized_count = float(oriented_count)/float(word_count)
