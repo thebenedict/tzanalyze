@@ -12,7 +12,7 @@ from operator import itemgetter
 terms = ["CCM", "CHADEMA", "Magufuli", "Lowassa", "Slaa", "TFDA", "corruption", "rushwa", "obama", "usaid", "msd", "kenya", "MCC", "elephant", "tembo", "Zanzibar", "Kipindupindu"]
 
 input_root = "cleaned"
-output_root = "counts"
+output_root = "./pages/data"
 
 languages = {
   "mwananchi": "SW",
