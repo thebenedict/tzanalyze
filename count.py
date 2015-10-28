@@ -9,7 +9,7 @@ from glob import glob
 from collections import defaultdict
 from operator import itemgetter
 
-terms = ["poll", "twaweza", "barare", "richmond", "CCM", "CHADEMA", "Magufuli", "Lowassa", "Slaa", "TFDA", "TCRA", "corruption", "rushwa", "obama", "usaid", "msd", "kenya", "MCC", "elephant", "tembo", "Zanzibar", "Kipindupindu" "riot" "riots"]
+terms = ["poll", "twaweza", "barare", "richmond", "CCM", "CHADEMA", "Magufuli", "Lowassa", "Slaa", "TFDA", "TCRA", "corruption", "rushwa", "obama", "usaid", "msd", "kenya", "MCC", "elephant", "tembo", "Zanzibar", "Kipindupindu", "riot", "riots", "vote"]
 
 input_root = "cleaned"
 output_root = "./pages/data"
