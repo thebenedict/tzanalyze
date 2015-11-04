@@ -9,7 +9,31 @@ from glob import glob
 from collections import defaultdict
 from operator import itemgetter
 
-terms = ["poll", "twaweza", "barare", "richmond", "CCM", "CHADEMA", "Magufuli", "Lowassa", "Slaa", "TFDA", "TCRA", "corruption", "rushwa", "obama", "usaid", "msd", "kenya", "MCC", "elephant", "tembo", "Zanzibar", "Kipindupindu", "riot", "riots", "vote"]
+terms = [
+  ["seif","seif"],
+  ["poll","uchaguzi"],
+  ["twaweza","twaweza"], 
+  ["richmond","richmond"], 
+  ["CCM","CCM"],
+  ["CHADEMA","CHADEMA"],
+  ["Magufuli","Magufuli"],
+  ["Lowassa","Lowassa"],
+  ["Slaa","Slaa"],
+  ["TFDA","TFDA"],
+  ["TCRA","TCRA"],
+  ["corruption","rushwa"],
+  ["obama","obama"],
+  ["usaid","usaid"],
+  ["msd","msd"],
+  ["kenya","kenya"],
+  ["MCC","MCC"],
+  ["elephant","tembo"],
+  ["Zanzibar","Zanzibar"],
+  ["Kipindupindu","Kipindupindu"],
+  ["riots","ghasia"],
+  ["vote","vote"],
+  ["election","uchaguzi"]
+]
 
 input_root = "cleaned"
 output_root = "./pages/data"
@@ -42,7 +66,7 @@ def main():
       counts.append(get_counts_for_publication(publication, text[publication], term))
     pad_counts(counts);
     sort_counts(counts);
-    all_counts[term] = counts
+    all_counts["%s-%s" % (term[1], term[0])] = counts
 
   destination = "%s/counts.json" % (output_root)
   with io.open(destination, 'w', encoding='utf-8') as outfile:
@@ -62,16 +86,22 @@ def get_text():
   return text
 
 def get_counts_for_publication(name, text, term):
+  if languages[name] == "SW":
+    term = term[1]
+  else:
+    term = term[0]
+
   counts = {'key': name.title().replace("_"," "), 'values': []}
   for i, date in enumerate(text.keys()):
     term_count = 0
-    #word_count = 0
+    word_count = 0
     for article in text[date]:
       term_count += article.count(" " + term.lower() + " ")
-      #word_count += len(article)
+      word_count += len(article)
     oriented_count = term_count * directions[languages[name]]
-    #normalized_count = float(oriented_count)/float(word_count)
-    counts['values'].append({'date': date, 'x': get_timestamp(date), 'y': int(oriented_count)})
+    if word_count > 0:
+      oriented_count = float(oriented_count) / float(word_count) * 100000
+    counts['values'].append({'date': date, 'x': get_timestamp(date), 'y': oriented_count})
   return counts
 
 def pad_counts(counts):

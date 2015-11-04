@@ -49,8 +49,9 @@ def clean_articles(articles):
 def clean_paragraph(paragraph):
   text = paragraph.lower().encode("ascii", errors="ignore")
   words = tokenizer.tokenize(text)
-  clean_words = [w for w in words if (w not in stopwords.words('english'))]
-  return " ".join(clean_words).strip()
+  return " ".join(words).strip()
+  #clean_words = [w for w in words if (w not in stopwords.words('english'))]
+  #return " ".join(clean_words).strip()
 
 if __name__ == "__main__":
   main()

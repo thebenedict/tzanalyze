@@ -53,6 +53,17 @@ var addChartContainer = function(cid) {
   $( '<div id="' + cid + '" class="chart"><svg></svg></div>' ).appendTo( "body" );
 }
 
+var addElectionTicks = function() {
+  d3.selectAll('.chart svg')
+    .append("line")
+    .attr("y1", 30)
+    .attr("y2", 275)
+    .attr("x1", 885.5)
+    .attr("x2", 885.5)
+    .attr( "stroke", "#ff8a00" )
+    .attr( "stroke-width", "2" );
+}
+
 d3.json("./pages/data/counts.json", function(error, json) {
   if (error) return console.warn(error);
   data = json;
@@ -60,4 +71,5 @@ d3.json("./pages/data/counts.json", function(error, json) {
   $.each(data, function(term, counts) {
     createChart(term, counts);
   })
+  addElectionTicks();
 }); 
