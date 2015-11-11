@@ -1,5 +1,9 @@
 var data;
 
+var myChart;
+var electionDay = 1445720400000;
+var electionPx;
+
 var colors = {
   "Citizen": "#0072bc",
   "Mwananchi": "#529ecf",
@@ -45,6 +49,10 @@ var createChart = function(term, counts) {
 
     nv.utils.windowResize(chart.update);
 
+    election = chart.xAxis.scale().domain().indexOf(electionDay);
+    electionPx = chart.xAxis.scale().range()[election] + 65;
+    addVerticalLine(cid, electionPx);
+    myChart = chart;
     return chart;
   });
 }
@@ -53,15 +61,15 @@ var addChartContainer = function(cid) {
   $( '<div id="' + cid + '" class="chart"><svg></svg></div>' ).appendTo( "body" );
 }
 
-var addElectionTicks = function() {
-  d3.selectAll('.chart svg')
+var addVerticalLine = function(cid, electionPx) {
+  d3.select('#' + cid + ' svg')
     .append("line")
     .attr("y1", 30)
     .attr("y2", 275)
-    .attr("x1", 848.5)
-    .attr("x2", 848.5)
+    .attr("x1", electionPx)
+    .attr("x2", electionPx)
     .attr( "stroke", "#ff8a00" )
-    .attr( "stroke-width", "2" );
+    .attr( "stroke-width", "1" );
 }
 
 d3.json("./pages/data/counts.json", function(error, json) {
@@ -70,6 +78,5 @@ d3.json("./pages/data/counts.json", function(error, json) {
 
   $.each(data, function(term, counts) {
     createChart(term, counts);
-  })
-  addElectionTicks();
+  });
 }); 
