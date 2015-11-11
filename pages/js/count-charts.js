@@ -58,8 +58,8 @@ var addElectionTicks = function() {
     .append("line")
     .attr("y1", 30)
     .attr("y2", 275)
-    .attr("x1", 885.5)
-    .attr("x2", 885.5)
+    .attr("x1", 848.5)
+    .attr("x2", 848.5)
     .attr( "stroke", "#ff8a00" )
     .attr( "stroke-width", "2" );
 }

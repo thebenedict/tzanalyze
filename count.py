@@ -13,7 +13,6 @@ terms = [
   ["seif","seif"],
   ["poll","uchaguzi"],
   ["twaweza","twaweza"], 
-  ["richmond","richmond"], 
   ["CCM","CCM"],
   ["CHADEMA","CHADEMA"],
   ["Magufuli","Magufuli"],
@@ -29,10 +28,10 @@ terms = [
   ["MCC","MCC"],
   ["elephant","tembo"],
   ["Zanzibar","Zanzibar"],
-  ["Kipindupindu","Kipindupindu"],
   ["riots","ghasia"],
   ["vote","vote"],
-  ["election","uchaguzi"]
+  ["election","uchaguzi"],
+  ["ukawa", "ukawa"]
 ]
 
 input_root = "cleaned"
