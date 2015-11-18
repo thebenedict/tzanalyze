@@ -29,9 +29,16 @@ terms = [
   ["elephant","tembo"],
   ["Zanzibar","Zanzibar"],
   ["riots","ghasia"],
-  ["vote","vote"],
   ["election","uchaguzi"],
-  ["ukawa", "ukawa"]
+  ["ukawa", "ukawa"],
+  ["vote","kura"],
+  ["education","elimu"],
+  ["health","afya"],
+  ["agriculture","kilimo"],
+  ["youth","vijana"],
+  ["economics","uchumi"],
+  ["employment","ajira"],
+  ["ipsos","ipsos"]
 ]
 
 input_root = "cleaned"
