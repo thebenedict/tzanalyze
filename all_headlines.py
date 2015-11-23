@@ -37,7 +37,7 @@ def main():
           cleaned_paragraphs.append(clean_paragraph(paragraph))
         cleaned_article = " ".join(cleaned_paragraphs).strip()
 
-        term_count = cleaned_article.count(term)
+        term_count = cleaned_article.count(term.lower())
         if term_count > 0:
           title = article['title'][0].encode("ascii", errors="ignore")
           print "\"%s\",\"%s\",\"%s\",\"%s\"" % (date_string, publication, language, title)

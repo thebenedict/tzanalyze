@@ -42,7 +42,6 @@ def dedup_publication(publication_name):
       data = json.load(infile)
       processed_count += len(data)
       date_str = os.path.basename(filename)[:10]
-      dated[date_str] = []
       for article in data:
         has_title = len(article["title"])
         try:

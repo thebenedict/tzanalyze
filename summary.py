@@ -36,7 +36,7 @@ def main():
       if term_count > 0:
         title = article['title'][0].encode("ascii", errors="ignore")
         print "{:80}{:2}".format(title.strip(), term_count)
-        #print "{:100}".format(article['url'])
+        print "{:100}".format(article['url'])
         total_count += term_count
         article_count += 1
     print "\n%s mentions in %s articles" % (total_count, article_count)

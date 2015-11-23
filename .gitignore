@@ -3,4 +3,11 @@
 /deduped
 /feeds
 /sentences
+/lda_ready
+/all_articles
+/lda_ready_articles
+/lda_ready_articles_sw
+
+.ipynb_checkpoints
+
 .DS_Store

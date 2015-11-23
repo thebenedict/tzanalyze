@@ -11,7 +11,6 @@ from operator import itemgetter
 
 terms = [
   ["seif","seif"],
-  ["poll","uchaguzi"],
   ["twaweza","twaweza"], 
   ["CCM","CCM"],
   ["CHADEMA","CHADEMA"],
@@ -38,7 +37,8 @@ terms = [
   ["youth","vijana"],
   ["economics","uchumi"],
   ["employment","ajira"],
-  ["ipsos","ipsos"]
+  ["ipsos","ipsos"],
+  ["data","data"]
 ]
 
 input_root = "cleaned"
@@ -105,8 +105,8 @@ def get_counts_for_publication(name, text, term):
       term_count += article.count(" " + term.lower() + " ")
       word_count += len(article)
     oriented_count = term_count * directions[languages[name]]
-    if word_count > 0:
-      oriented_count = float(oriented_count) / float(word_count) * 100000
+    # if word_count > 0:
+    #   oriented_count = float(oriented_count) / float(word_count) * 100000
     counts['values'].append({'date': date, 'x': get_timestamp(date), 'y': oriented_count})
   return counts
 

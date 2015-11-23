@@ -9,10 +9,8 @@ from nltk.tokenize import RegexpTokenizer
 from nltk.corpus import stopwords
 
 input_root = "deduped"
-output_root = "lda_ready_articles_sw"
+output_root = "lda_ready_articles"
 tokenizer = RegexpTokenizer(r'\w+')
-
-selected_term = "uchaguzi"
 
 def main():  
   for publication_name in os.listdir(input_root):
@@ -42,15 +40,18 @@ def clean_articles(articles):
     current_article = []
     for paragraph in article['body']:
       current_article.extend(clean_paragraph(paragraph))
-    if selected_term in current_article:
-      cleaned_articles.append(current_article)
+    cleaned_articles.append(current_article)
   return cleaned_articles
    
 def clean_paragraph(paragraph):
   text = paragraph.lower().encode("ascii", errors="ignore")
   words = tokenizer.tokenize(text)
-  #clean_words = [w.strip() for w in words if (w not in stopwords.words('english'))]
-  clean_words = [w.strip() for w in words]  
+  
+  #remove stopwords and a few other common words
+  to_remove = stopwords.words('english')
+  to_remove.extend(['says', 'said', 'told', 'also'])
+  clean_words = [w.strip() for w in words if w not in to_remove]
+
   return clean_words
 
 if __name__ == "__main__":
